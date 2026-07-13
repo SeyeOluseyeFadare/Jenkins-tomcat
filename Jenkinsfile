@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        TOMCAT_SERVER = 'ec2-35-182-168-217.ca-central-1.compute.amazonaws.com'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -27,6 +31,15 @@ pipeline {
             }
         }
 
+        stage('Deploy to Tomcat') {
+            steps {
+                sh '''
+                    sudo cp /var/lib/jenkins/workspace/<Jenkins-tomcat>/target/emraay-bank-app.war /opt/tomcat/webapps/
+                    sudo chown tomcat:tomcat /opt/tomcat/webapps/emraay-bank-app.war
+                    sudo systemctl restart tomcat
+                '''
+            }
+        } 
     }
 
     post {

@@ -3,7 +3,7 @@ name: Maven CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - "**"
 
 jobs:
   build-test-deploy:
